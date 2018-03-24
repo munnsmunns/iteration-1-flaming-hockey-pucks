@@ -23,19 +23,19 @@ public class Server {
     private static final String databaseName = "dev";
     private static final int serverPort = 4567;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         MongoClient mongoClient = new MongoClient();
-        MongoDatabase emojiDatabase = mongoClient.getDatabase(databaseName);
+        MongoDatabase database = mongoClient.getDatabase(databaseName);
 
-        EmojiController emojiController = new EmojiController(emojiDatabase);
+        EmojiController emojiController = new EmojiController(database);
         EmojiRequestHandler emojiRequestHandler = new EmojiRequestHandler(emojiController);
-        GoalController goalController = new GoalController(emojiDatabase);
+        GoalController goalController = new GoalController(database);
         GoalRequestHandler goalRequestHandler = new GoalRequestHandler(goalController);
-        JournalController journalController = new JournalController(emojiDatabase);
+        JournalController journalController = new JournalController(database);
         JournalRequestHandler journalRequestHandler = new JournalRequestHandler(journalController);
 
-        UserController userController = new UserController(emojiDatabase);
+        UserController userController = new UserController(database);
         UserRequestHandler userRequestHandler = new UserRequestHandler(userController);
         //Configure Spark
         port(serverPort);

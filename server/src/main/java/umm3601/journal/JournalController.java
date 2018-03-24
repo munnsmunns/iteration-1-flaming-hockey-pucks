@@ -22,7 +22,6 @@ public class JournalController extends SuperController {
     /**
      * journalController constructor
      *
-     * @param database
      */
     public JournalController(MongoDatabase database) {
         gson = new Gson();
@@ -70,10 +69,11 @@ public class JournalController extends SuperController {
 //        return JSON.serialize(matchingJournals);
 //    }
 
-    public String addNewJournal(String subject, String body) {
+    public String addNewJournal(String subject, String body, String email) {
         Document newJournal = new Document();
         newJournal.append("subject",subject);
         newJournal.append("body",body);
+        newJournal.append("email", email);
 
         Date now = new Date();
         newJournal.append("date", now.toString());
@@ -81,7 +81,7 @@ public class JournalController extends SuperController {
         try {
             collection.insertOne(newJournal);
             ObjectId id = newJournal.getObjectId("_id");
-            System.err.println("Successfully added new journal [_id=" + id + ", subject=" + subject + ", body=" + body + ", date=" + now + ']');
+            System.err.println("Successfully added new journal [_id=" + id + ", subject=" + subject + ", body=" + body + ", date=" + now + ", email=" + email + ']');
             return JSON.serialize(id);
         } catch(MongoException me) {
             me.printStackTrace();
@@ -89,11 +89,12 @@ public class JournalController extends SuperController {
         }
     }
 
-    public String editJournal(String id, String subject, String body){
+    public String editJournal(String id, String subject, String body, String email){
         System.out.println("Right here again");
         Document newJournal = new Document();
         newJournal.append("subject", subject);
         newJournal.append("body", body);
+        newJournal.append("email", email);
         Document setQuery = new Document();
         setQuery.append("$set", newJournal);
 

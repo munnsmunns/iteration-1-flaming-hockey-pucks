@@ -14,7 +14,6 @@ public class JournalRequestHandler {
     /**
      * journal request handler constructor
      *
-     * @param journalController
      */
     public JournalRequestHandler(JournalController journalController){
         this.journalController = journalController;
@@ -63,12 +62,13 @@ public class JournalRequestHandler {
 
                     String subject = dbO.getString("subject");
                     String body = dbO.getString("body");
+                    String email = dbO.getString("email");
 
 
                     //Date date = dbO.getDate("date");
 
                     System.err.println("Adding new journal [subject=" + subject + ", body=" + body + ']');
-                    return journalController.addNewJournal(subject, body).toString();
+                    return journalController.addNewJournal(subject, body, email);
                 }
                 catch(NullPointerException e)
                 {
@@ -104,11 +104,11 @@ public class JournalRequestHandler {
                     String id = dbO.getString("_id");
                     String subject = dbO.getString("subject");
                     String body = dbO.getString("body");
-
+                    String email = dbO.getString("email");
 
 
                     System.err.println("Editing journal [ id=" + id + ", subject=" + subject + ", body=" + body + ']');
-                    return journalController.editJournal(id, subject, body).toString();
+                    return journalController.editJournal(id, subject, body, email);
                 }
                 catch(NullPointerException e)
                 {
