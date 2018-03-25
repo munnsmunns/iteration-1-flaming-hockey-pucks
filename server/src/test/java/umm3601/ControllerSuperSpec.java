@@ -1,10 +1,12 @@
 package umm3601;
 
 import org.bson.BsonArray;
+import org.bson.BsonValue;
 import org.bson.codecs.*;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.json.JsonReader;
+import org.bson.types.ObjectId;
 
 import java.util.Arrays;
 
@@ -21,5 +23,12 @@ public abstract class ControllerSuperSpec {
         BsonArrayCodec arrayReader = new BsonArrayCodec(codecRegistry);
 
         return arrayReader.decode(reader, DecoderContext.builder().build());
+    }
+
+    protected ObjectId parseObjectId(String json) {
+        JsonReader reader = new JsonReader(json);
+        ObjectIdCodec objectIdCodec = new ObjectIdCodec();
+
+        return objectIdCodec.decode(reader, DecoderContext.builder().build());
     }
 }
