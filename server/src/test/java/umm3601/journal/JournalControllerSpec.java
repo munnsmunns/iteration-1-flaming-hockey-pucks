@@ -108,18 +108,14 @@ public class JournalControllerSpec extends ControllerSuperSpec {
         assertEquals("Should return the email of the new journal entry", "me@apat.hy", email.get(1));
     }
 
-    // Could not make work
-//    @Test
-//    public void editJournalTest() {
-//        String jsonResult = journalController.editJournal(nicId.toHexString(), "I'm giving them all C++'s", "", "nic@college.com");
-//        System.out.println(jsonResult);
-//        //String nic = journalController.getItem(nicId.toHexString());
-//        BsonArray nic = parseJsonArray(jsonResult);
-//        List<String> nic1 = nic
-//            .stream()
-//            .map(JournalControllerSpec::getSubject)
-//            .sorted()
-//            .collect(Collectors.toList());
-//        assertEquals("Subject should match", "I'm giving them all C++'s", nic1.get(0));
-//    }
+    @Test
+    public void editJournalTest() {
+        String jsonId = journalController.editJournal(nicId.toHexString(), "I'm giving them all C++'s", "", "nic@college.com");
+        System.out.println(jsonId);
+        ObjectId id = parseObjectId(jsonId);
+        String jsonResult = journalController.getItem(id.toHexString());
+        Document nic1 = Document.parse(jsonResult);
+        assertEquals("Subject should match", "I'm giving them all C++'s", nic1.getString("subject"));
+
+    }
 }
